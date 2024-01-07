@@ -6,12 +6,14 @@ class OrderItemWidget extends StatefulWidget {
   final int index;
   final List<String> products;
   final VoidCallback onRemove;
+  final void Function(OrderItem, int) onSelectedValueChanged;
 
   OrderItemWidget(
       {required this.orderItem,
       required this.index,
       required this.products,
-      required this.onRemove});
+      required this.onRemove,
+      required this.onSelectedValueChanged});
 
   @override
   State<OrderItemWidget> createState() => _OrderItemWidgetState();
@@ -19,14 +21,18 @@ class OrderItemWidget extends StatefulWidget {
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
   String selectedValue = '';
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
+  TextEditingController selectedValueController = TextEditingController();
+
+  // TextEditingController quantityController = TextEditingController();
+  // TextEditingController priceController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    quantityController.text = widget.orderItem.quantity.toString();
-    priceController.text = widget.orderItem.price.toString();
+    selectedValueController.text = widget.orderItem.selectedProduct;
+    //   quantityController.text = widget.orderItem.quantity.toString();
+    //   priceController.text = widget.orderItem.price.toString();
+    // }
   }
 
   @override
@@ -35,11 +41,15 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       children: [
         // PRODUCT DROPDOWN
         DropdownButton<String>(
-          value: selectedValue.isNotEmpty ? selectedValue : null,
+          value: widget.orderItem.selectedProduct.isNotEmpty
+              ? widget.orderItem.selectedProduct
+              : null,
           onChanged: (String? newValue) {
             setState(() {
               selectedValue = newValue!;
               widget.orderItem.selectedProduct = selectedValue;
+              // Call the callback to update orderItemsDetails
+              widget.onSelectedValueChanged(widget.orderItem, widget.index);
             });
           },
           items: widget.products.map((String value) {
@@ -53,7 +63,6 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
         // QUANTITY
         Expanded(
           child: TextFormField(
-            controller: quantityController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: 'Quantity',
@@ -61,15 +70,14 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
             onChanged: (value) {
               setState(() {
                 widget.orderItem.quantity = int.tryParse(value) ?? 0;
+                widget.onSelectedValueChanged(widget.orderItem, widget.index);
               });
             },
           ),
         ),
 
-        // PRICE
         Expanded(
           child: TextFormField(
-            controller: priceController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: 'Price',
@@ -77,6 +85,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
             onChanged: (value) {
               setState(() {
                 widget.orderItem.price = double.tryParse(value) ?? 0.0;
+                widget.onSelectedValueChanged(widget.orderItem, widget.index);
               });
             },
           ),

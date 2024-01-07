@@ -30,7 +30,7 @@ class OrderApi {
   }
 
   // POST METHOD
-  Future<void> postOrder(orderCreationDate, orderStaffID, customerId,
+  Future<String> postOrder(orderCreationDate, orderStaffID, customerId,
       orderDueDate, orderStatus) async {
     final body = <String, dynamic>{
       "orderCreationDate": orderCreationDate,
@@ -48,5 +48,6 @@ class OrderApi {
         orderStatus);
 
     final record = await pb.collection('order').create(body: body);
+    return record.id;
   }
 }

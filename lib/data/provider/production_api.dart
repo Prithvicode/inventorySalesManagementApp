@@ -21,6 +21,8 @@ class ProductionApi {
     "305fxlc0m9o76p1": "Buff Momo",
   };
 
+  // Future<List?>? getProductIdFromName() async {}
+
   ProductionInventoryTrigger p_i_trigger = new ProductionInventoryTrigger();
 
   // GET METHOD

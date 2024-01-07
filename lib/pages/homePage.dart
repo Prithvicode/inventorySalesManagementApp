@@ -1,4 +1,5 @@
 import 'package:apitestapp/pages/inventoryPage.dart';
+import 'package:apitestapp/pages/orderPage.dart';
 import 'package:apitestapp/pages/productionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     ),
     InventoryPage(),
     ProductionPage(),
-    Container(child: Center(child: Text("Profile page")))
+    OrderPage(),
   ];
 
   @override
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 GButton(icon: Icons.home, text: "Home"),
                 GButton(icon: Icons.inventory, text: "Stocks"),
                 GButton(icon: Icons.factory, text: "Production"),
-                GButton(icon: Icons.person, text: "Profile"),
+                GButton(icon: Icons.receipt_long_outlined, text: "Orders"),
               ],
             ),
           ),

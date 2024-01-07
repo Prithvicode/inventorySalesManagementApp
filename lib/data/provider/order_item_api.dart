@@ -28,4 +28,27 @@ class OrderItemApi {
     }
     return orderItems;
   }
+
+  final productIdMatch = {
+    "Chi Momo": "h3jn9e18t918jjw",
+    "Veg Momo": "roivwboyvm2pfje",
+    "Pork Momo": "zf8j99zl4ft79lf",
+    "Buff Momo": "305fxlc0m9o76p1",
+  };
+
+  // POST METHOD
+  Future<void> postOrderItems(String orderId, var orderItemsDetails) async {
+    final body = <String, dynamic>{
+      "orderId": orderId,
+      "productId": productIdMatch[orderItemsDetails[0]],
+      "quantity": orderItemsDetails[1],
+      "price": orderItemsDetails[2],
+      "amount": orderItemsDetails[3],
+    };
+    //test
+    print(orderId);
+    print(orderItemsDetails);
+
+    final record = await pb.collection('orderItem').create(body: body);
+  }
 }

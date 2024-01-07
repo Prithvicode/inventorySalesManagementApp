@@ -13,30 +13,17 @@ class ProductionPage extends StatefulWidget {
 
 class _ProductionPageState extends State<ProductionPage> {
   List productions = [];
-  Timer? _timer;
+
   bool isLoaded = false;
-  bool _mounted = false;
 
   @override
   void initState() {
     super.initState();
-    _mounted = true;
-    _startTimer();
     loadProductions();
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 60), (timer) {
-      if (_mounted) {
-        loadProductions();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _mounted = false;
-    _timer?.cancel();
     super.dispose();
   }
 
@@ -44,12 +31,11 @@ class _ProductionPageState extends State<ProductionPage> {
     try {
       final productionsApi = ProductionApi();
       List productionsList = (await productionsApi.getAllProduction())!;
-      if (_mounted) {
-        setState(() {
-          isLoaded = true;
-          productions = productionsList;
-        });
-      }
+
+      setState(() {
+        isLoaded = true;
+        productions = productionsList;
+      });
     } catch (error) {
       print(error);
     }

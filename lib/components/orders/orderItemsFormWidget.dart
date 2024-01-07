@@ -5,17 +5,14 @@ import 'package:flutter/material.dart';
 // Collection of Order items details.
 
 class OrderItemFormWidget extends StatefulWidget {
+  var orderItemsDetails; // collection of all the order items.
+
+  OrderItemFormWidget({required this.orderItemsDetails});
   @override
   State<OrderItemFormWidget> createState() => _OrderFormPageState();
 }
 
-void getEachOrderItemDetail(List itemDetails) {
-  List itemDetailsCollection = [];
-  itemDetailsCollection.add(itemDetails);
-}
-
 class _OrderFormPageState extends State<OrderItemFormWidget> {
-  var orderItemsDetails = []; // collection of all the order items.
   List<OrderItem> orderItems = [];
   List<String> products = ['Pork Momo', 'Veg Momo', 'Buff Momo', 'Chi Momo'];
 
@@ -45,6 +42,17 @@ class _OrderFormPageState extends State<OrderItemFormWidget> {
                     onRemove: () {
                       setState(() {
                         orderItems.removeAt(entry.key);
+                      });
+                    },
+                    onSelectedValueChanged: (orderItem, index) {
+                      // Handle the selected value change here
+                      setState(() {
+                        widget.orderItemsDetails[index] = [
+                          orderItem.selectedProduct,
+                          orderItem.quantity,
+                          orderItem.price,
+                          orderItem.amount
+                        ];
                       });
                     }))
                 .toList(),

@@ -1,9 +1,10 @@
 import 'package:apitestapp/components/orders/orderItemsFormWidget.dart';
 import 'package:apitestapp/data/provider/customer_api.dart';
 import 'package:apitestapp/data/provider/order_api.dart';
+import 'package:apitestapp/data/provider/order_item_api.dart';
 import 'package:apitestapp/pages/orderPage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:intl/intl.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
@@ -21,7 +22,10 @@ class _MyWidgetState extends State<OrderFormPage> {
   List<String> orderStatusType = ['Pending', 'Completed', 'Cancelled'];
   String selectedOrderStatus = 'Pending';
 
-  OrderApi _orderApi = OrderApi(); // Corrected instance creation
+// Api instances
+  OrderApi _orderApi = OrderApi();
+  OrderItemApi _orderItemApi = OrderItemApi();
+
   TaxableCustomerApi _customerApi =
       TaxableCustomerApi(); // Corrected instance creation
 
@@ -35,6 +39,8 @@ class _MyWidgetState extends State<OrderFormPage> {
   String selectedCustomerId = '';
 
   List<String> customersNames = []; // Corrected list type
+
+  var orderItemDetails = {};
 
   TextEditingController orderCreationDateController = TextEditingController();
   TextEditingController orderStaffIdController = TextEditingController();
@@ -275,20 +281,46 @@ class _MyWidgetState extends State<OrderFormPage> {
                 ),
 
                 // FORM
-                OrderItemFormWidget(),
+                OrderItemFormWidget(
+                  orderItemsDetails: orderItemDetails,
+                ),
 
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Send to order post order
-                      _orderApi.postOrder(
-                        orderCreationDateController.text,
-                        "23",
-                        selectedCustomerId,
-                        orderDueDateController.text,
-                        orderStatusController.text,
-                      );
+                      //  Post order To Order Table
+                      String orderId = '';
+                      Future<void> setOrderIdApiAfterOrderPost() async {
+                        final orderIdResponse = await _orderApi.postOrder(
+                          orderCreationDateController.text,
+                          "23",
+                          selectedCustomerId,
+                          orderDueDateController.text,
+                          orderStatusController.text,
+                        );
+                        setState(() {
+                          orderId = orderIdResponse;
+                        });
+                      }
+
+                      Future<void> processOrderItems() async {
+                        await setOrderIdApiAfterOrderPost();
+
+                        // POST ORDER TO ORDER ITEM TABLE if it's not empty
+                        if (orderItemDetails.isNotEmpty && orderId != '') {
+                          // Loop through order items in the orderItemDetails map.
+                          for (var key in orderItemDetails.keys) {
+                            await _orderItemApi.postOrderItems(
+                                orderId, orderItemDetails[key]);
+                          }
+
+                          print(orderItemDetails);
+                        }
+                      }
+
+                      // Calling function
+                      processOrderItems();
 
                       Navigator.push(
                         context,

@@ -23,7 +23,7 @@ class _ProductionPageState extends State<InventoryPage> {
     try {
       final inventoryApi = InventoryApi();
       inventories = (await inventoryApi.getAllInventory())!;
-      print(inventories); // [[id, created, udpated, fiest],[],[]]
+      // print(inventories); // [[id, created, udpated, fiest],[],[]]
 
       setState(() {
         isLoaded = true;
