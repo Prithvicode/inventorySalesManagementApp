@@ -1,5 +1,6 @@
 import 'package:apitestapp/pages/homePage.dart';
 import 'package:apitestapp/pages/inventoryPage.dart';
+import 'package:apitestapp/pages/orderPage.dart';
 import 'package:apitestapp/pages/productionPage.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: OrderPage(),
     );
   }
 }

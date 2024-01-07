@@ -1,4 +1,4 @@
-import 'package:apitestapp/components/produtionDetailPage.dart';
+import 'package:apitestapp/components/production/produtionDetailPage.dart';
 import 'package:apitestapp/data/provider/production_api.dart';
 import 'package:apitestapp/pages/productionPage.dart';
 import 'package:flutter/material.dart';

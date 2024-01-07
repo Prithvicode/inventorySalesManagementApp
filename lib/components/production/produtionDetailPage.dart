@@ -1,5 +1,5 @@
-import 'package:apitestapp/components/confirmAlertBox.dart';
-import 'package:apitestapp/components/productionUpdateForm.dart';
+import 'package:apitestapp/components/production/confirmAlertBox.dart';
+import 'package:apitestapp/components/production/productionUpdateForm.dart';
 import 'package:apitestapp/data/provider/production_api.dart';
 import 'package:apitestapp/pages/productionPage.dart';
 import 'package:flutter/material.dart';
