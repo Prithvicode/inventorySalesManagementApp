@@ -40,12 +40,12 @@ class OrderApi {
       "orderStatus": orderStatus
     };
     //test
-    print("Check for postOrder Values" +
-        orderCreationDate +
-        orderStaffID +
-        customerId +
-        orderDueDate +
-        orderStatus);
+    // print("Check for postOrder Values" +
+    //     orderCreationDate +
+    //     orderStaffID +
+    //     customerId +
+    //     orderDueDate +
+    //     orderStatus);
 
     final record = await pb.collection('order').create(body: body);
     return record.id;

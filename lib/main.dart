@@ -2,6 +2,7 @@ import 'package:apitestapp/pages/homePage.dart';
 import 'package:apitestapp/pages/inventoryPage.dart';
 import 'package:apitestapp/pages/orderPage.dart';
 import 'package:apitestapp/pages/productionPage.dart';
+import 'package:apitestapp/pages/salesPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {

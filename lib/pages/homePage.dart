@@ -1,3 +1,4 @@
+import 'package:apitestapp/components/sidebarDrawer.dart';
 import 'package:apitestapp/pages/inventoryPage.dart';
 import 'package:apitestapp/pages/orderPage.dart';
 import 'package:apitestapp/pages/productionPage.dart';
@@ -26,6 +27,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Dashboard"),
+      ),
+      drawer: SidebarDrawer(),
       body: _buildPage(_currentIndex),
       bottomNavigationBar: SizedBox(
         child: ColoredBox(

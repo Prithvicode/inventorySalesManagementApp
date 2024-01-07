@@ -46,8 +46,8 @@ class OrderItemApi {
       "amount": orderItemsDetails[3],
     };
     //test
-    print(orderId);
-    print(orderItemsDetails);
+    // print(orderId);
+    // print(orderItemsDetails);
 
     final record = await pb.collection('orderItem').create(body: body);
   }
