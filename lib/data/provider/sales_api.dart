@@ -1,7 +1,10 @@
+import 'package:apitestapp/data/triggers/salesTrigger.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 class SalesApi {
   final pb = PocketBase('https://draw-wire.pockethost.io');
+
+  SalesTrigger _salesTrigger = SalesTrigger();
 
   Future<List?>? getAllSales() async {
     List sales = [];
@@ -34,7 +37,7 @@ class SalesApi {
   }
 
   // POST METHOD
-  Future<String> postSales(paymentType, deliveryStaffID, totalAmount, discount,
+  Future<void> postSales(paymentType, deliveryStaffID, totalAmount, discount,
       tax, payableAmount, cashReceived, orderId, orderItemsDetails) async {
     final body = <String, dynamic>{
       "paymentType": paymentType,
@@ -48,9 +51,10 @@ class SalesApi {
     };
 
     final record = await pb.collection('sales').create(body: body);
-    return record.id;
 
     // Trigger order update
+    _salesTrigger.udpateOrderStatus(orderId);
     // Trigger inventory update
+    _salesTrigger.reduceInventories(orderItemsDetails);
   }
 }

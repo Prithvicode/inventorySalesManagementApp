@@ -35,7 +35,7 @@ class _MyWidgetState extends State<OrderDetailsPage> {
   double payableAmount = 0.0;
 
   SalesApi _salesApi = SalesApi();
-  var orderItemsDetails;
+  List<List<String>>? orderItemsDetails;
 
   @override
   void initState() {
