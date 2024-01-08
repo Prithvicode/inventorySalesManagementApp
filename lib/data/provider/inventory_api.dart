@@ -30,6 +30,20 @@ class InventoryApi {
     return inventory_list;
   }
 
+  // helper function that get current stock.
+  Future<int> getProductAvailableStock(String productId) async {
+    int current_stock = -1; // flag for valid stock.
+    // getFullList
+    try {
+      final records = await pb.collection('product').getOne(productId);
+      current_stock = records.getDataValue<int>('availablePieces');
+      print(current_stock); // check
+    } catch (error) {
+      print("Error: $error"); // check
+    }
+    return current_stock;
+  }
+
 // To get productId form productName
 //   final productIdMatch = {
 //     "Chi Momo": "h3jn9e18t918jjw",

@@ -1,25 +1,15 @@
+import 'package:apitestapp/data/provider/inventory_api.dart';
 import 'package:pocketbase/pocketbase.dart';
+
+InventoryApi _inventoryApi = InventoryApi();
 
 class ProductionInventoryTrigger {
   final pb = PocketBase('https://draw-wire.pockethost.io');
 
-  // helper function that get current stock.
-  Future<int> _getProductDetails(String productId) async {
-    int current_stock = -1; // flag for valid stock.
-    // getFullList
-    try {
-      final records = await pb.collection('product').getOne(productId);
-      current_stock = records.getDataValue<int>('availablePieces');
-      print(current_stock); // check
-    } catch (error) {
-      print("Error: $error"); // check
-    }
-    return current_stock;
-  }
-
   Future<void> addInventory(
       String productId, String productName, int quantity) async {
-    int current_available_stocks = await _getProductDetails(productId);
+    int current_available_stocks =
+        await _inventoryApi.getProductAvailableStock(productId);
     print("Current availablePieces: $current_available_stocks");
     int updated_quantity = current_available_stocks + quantity;
     print("updated quantity $updated_quantity");
@@ -40,7 +30,8 @@ class ProductionInventoryTrigger {
 
   Future<void> updateInventory(String productId, String productName,
       int quantity, int prev_quantity) async {
-    int current_available_stocks = await _getProductDetails(productId);
+    int current_available_stocks =
+        await _inventoryApi.getProductAvailableStock(productId);
     print("Current availablePieces: $current_available_stocks");
 
     int updated_quantity = current_available_stocks - prev_quantity + quantity;
@@ -65,7 +56,8 @@ class ProductionInventoryTrigger {
     String productName,
     int quantity,
   ) async {
-    int current_available_stocks = await _getProductDetails(productId);
+    int current_available_stocks =
+        await _inventoryApi.getProductAvailableStock(productId);
     print("Current availablePieces: $current_available_stocks");
 
     int updated_quantity = current_available_stocks - quantity;

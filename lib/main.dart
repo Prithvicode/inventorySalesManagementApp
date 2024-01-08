@@ -1,3 +1,4 @@
+import 'package:apitestapp/components/sales/pendingOrderPage.dart';
 import 'package:apitestapp/pages/homePage.dart';
 import 'package:apitestapp/pages/inventoryPage.dart';
 import 'package:apitestapp/pages/orderPage.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: PendingOrderPage(),
     );
   }
 }

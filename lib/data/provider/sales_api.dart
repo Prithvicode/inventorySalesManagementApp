@@ -32,4 +32,25 @@ class SalesApi {
     }
     return sales;
   }
+
+  // POST METHOD
+  Future<String> postSales(paymentType, deliveryStaffID, totalAmount, discount,
+      tax, payableAmount, cashReceived, orderId, orderItemsDetails) async {
+    final body = <String, dynamic>{
+      "paymentType": paymentType,
+      "deliveryStaffId": deliveryStaffID,
+      "totalAmount": totalAmount,
+      "discount": discount,
+      "tax": tax,
+      "payableAmount": payableAmount,
+      "cashRecieved": cashReceived,
+      "orderId": orderId,
+    };
+
+    final record = await pb.collection('sales').create(body: body);
+    return record.id;
+
+    // Trigger order update
+    // Trigger inventory update
+  }
 }

@@ -45,10 +45,42 @@ class OrderItemApi {
       "price": orderItemsDetails[2],
       "amount": orderItemsDetails[3],
     };
+
     //test
     // print(orderId);
     // print(orderItemsDetails);
 
     final record = await pb.collection('orderItem').create(body: body);
+  }
+
+  Future<List<List<String>>> getOrderItemsFromOrderId(String orderId) async {
+    List<List<String>> orderItems = [];
+    try {
+      final records =
+          await pb.collection('orderItem').getFullList(sort: '-created');
+
+      // get order Item from orderID,
+
+      records.forEach((element) {
+        if (element.getDataValue('orderId').toString() == orderId) {
+          orderItems.add([
+            element.id,
+            element.created,
+            element.collectionId,
+            element.collectionName,
+            element.updated,
+            element.getDataValue('quantity').toString(), // 5
+            element.getDataValue<String>('price').toString(),
+            element.getDataValue<String>('amount').toString(), // 7
+            element.getDataValue<String>('productId').toString(), // 8
+          ]);
+        }
+      });
+      // print("Order Items of id: ${orderId}");
+      // print(orderItems);
+    } catch (error) {
+      print("Error: $error");
+    }
+    return orderItems;
   }
 }
